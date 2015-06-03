@@ -1,5 +1,6 @@
 import ui_converter,  qrc_converter,  constants
 import qrc_converter
+import constants
 from PyQt5.Qt import QApplication
 from core.core import Core
 from data.data import Data
