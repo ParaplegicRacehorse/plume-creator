@@ -1,4 +1,4 @@
-import ui_converter,  qrc_converter
+import ui_converter,  qrc_converter,  constants
 from PyQt5.Qt import QApplication
 from core.core import Core
 from data.database import Database
@@ -22,6 +22,14 @@ if __name__ == '__main__':
     import sys
 
     app = QApplication(sys.argv)
+    
+    app.setApplicationVersion(constants.__version__)
+    
+    app.setOrganizationName( "Plume-Creator" )
+    app.setOrganizationDomain( "plume-creator.eu" )
+    app.setApplicationName( "Plume-Creator")
+    
+    
     data = Database(app)
     core = Core(app, data)
     
