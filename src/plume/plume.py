@@ -1,4 +1,4 @@
-import ui_converter
+import ui_converter,  qrc_converter,  constants
 import qrc_converter
 from PyQt5.Qt import QApplication
 from core.core import Core
@@ -16,11 +16,15 @@ def launch_gui(core):
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
-    import except_handler
-    app.setApplicationName('Plume Creator')
-    app.setApplicationVersion('1.5.0-alpha')
-    app.setOrganizationDomain('http://www.plume-creator.eu')
+    
+    app.setApplicationVersion(constants.__version__)
+    
+    app.setOrganizationName( "Plume-Creator" )
+    app.setOrganizationDomain( "plume-creator.eu" )
+    app.setApplicationName( "Plume-Creator")
     data = Data()
+    
+    
     core = Core(app, data)
 
     gui = launch_gui(core)
