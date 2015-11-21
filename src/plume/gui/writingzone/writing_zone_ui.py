@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/cyril/Devel/workspace_eric/plume-creator/src/plume/gui/writingzone/writing_zone.ui'
+# Form implementation generated from reading ui file '/home/cyril/Devel/plume/plume-creator/src/plume/gui/writingzone/writing_zone.ui'
 #
-# Created by: PyQt5 UI code generator 5.4.1
+# Created: Sat Nov 21 12:43:26 2015
+#      by: PyQt5 UI code generator 5.3.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -14,6 +15,8 @@ class Ui_WritingZone(object):
         WritingZone.setEnabled(True)
         WritingZone.resize(816, 523)
         self.verticalLayout = QtWidgets.QVBoxLayout(WritingZone)
+        self.verticalLayout.setSpacing(2)
+        self.verticalLayout.setContentsMargins(2, 2, 2, 2)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -177,7 +180,7 @@ class Ui_WritingZone(object):
         self.actionPrint_directly.setText(_("Print directly"))
         self.actionPrint_directly.setShortcut(_("Ctrl+Shift+P"))
 
-from .minimap import Minimap
 from .tool_bar import ToolBar
 from .minimap_text_browser import Minimap2
 from .rich_text_edit import RichTextEdit
+from .minimap import Minimap

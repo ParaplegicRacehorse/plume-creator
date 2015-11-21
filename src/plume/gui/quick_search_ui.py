@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/cyril/Devel/workspace_eric/plume-creator/src/plume/gui/quick_search.ui'
+# Form implementation generated from reading ui file '/home/cyril/Devel/plume/plume-creator/src/plume/gui/quick_search.ui'
 #
-# Created by: PyQt5 UI code generator 5.4.1
+# Created: Sat Nov 21 12:40:27 2015
+#      by: PyQt5 UI code generator 5.3.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,8 +12,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_QuickSearch(object):
     def setupUi(self, QuickSearch):
         QuickSearch.setObjectName("QuickSearch")
-        QuickSearch.resize(400, 300)
+        QuickSearch.resize(400, 34)
         self.horizontalLayout = QtWidgets.QHBoxLayout(QuickSearch)
+        self.horizontalLayout.setSpacing(1)
+        self.horizontalLayout.setContentsMargins(1, 1, 1, 1)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.searchComboBox = QtWidgets.QComboBox(QuickSearch)
         self.searchComboBox.setEditable(True)

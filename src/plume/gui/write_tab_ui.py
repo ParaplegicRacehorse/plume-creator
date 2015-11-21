@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/cyril/Devel/workspace_eric/plume-creator/src/plume/gui/write_tab.ui'
+# Form implementation generated from reading ui file '/home/cyril/Devel/plume/plume-creator/src/plume/gui/write_tab.ui'
 #
-# Created by: PyQt5 UI code generator 5.4.1
+# Created: Sat Nov 21 12:44:29 2015
+#      by: PyQt5 UI code generator 5.3.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -13,6 +14,8 @@ class Ui_WriteTab(object):
         WriteTab.setObjectName("WriteTab")
         WriteTab.resize(400, 300)
         self.verticalLayout = QtWidgets.QVBoxLayout(WriteTab)
+        self.verticalLayout.setSpacing(1)
+        self.verticalLayout.setContentsMargins(1, 1, 1, 1)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -26,6 +29,11 @@ class Ui_WriteTab(object):
         self.horizontalLayout.addWidget(self.quickSearch)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.writeTabWritingZone = WritingZone(WriteTab)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.writeTabWritingZone.sizePolicy().hasHeightForWidth())
+        self.writeTabWritingZone.setSizePolicy(sizePolicy)
         self.writeTabWritingZone.setObjectName("writeTabWritingZone")
         self.verticalLayout.addWidget(self.writeTabWritingZone)
         self.bottomWidget = QtWidgets.QWidget(WriteTab)
@@ -39,6 +47,6 @@ class Ui_WriteTab(object):
 
         WriteTab.setWindowTitle(_("Form"))
 
-from gui.writingzone.writing_zone import WritingZone
-from .text_navigator import TextNavigator
 from .quick_search import QuickSearch
+from .text_navigator import TextNavigator
+from gui.writingzone.writing_zone import WritingZone

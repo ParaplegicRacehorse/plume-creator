@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Binder</class>
+ <widget class="QMainWindow" name="Binder">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="tabPosition">
+       <enum>QTabWidget::West</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Notes</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QToolBox" name="toolBox">
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="page">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>200</width>
+             <height>500</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Notes</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QTreeWidget" name="treeWidget">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <column>
+               <property name="text">
+                <string>Notes</string>
+               </property>
+              </column>
+              <item>
+               <property name="text">
+                <string>Characters</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Elsa</string>
+                </property>
+               </item>
+              </item>
+              <item>
+               <property name="text">
+                <string>Places</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Paris</string>
+                </property>
+               </item>
+              </item>
+              <item>
+               <property name="text">
+                <string>[whatever]</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Notes</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Note 1</string>
+                </property>
+               </item>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>98</width>
+             <height>96</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Properties</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QTableWidget" name="tableWidget_2">
+              <row>
+               <property name="text">
+                <string>Nouvelle ligne</string>
+               </property>
+              </row>
+              <column>
+               <property name="text">
+                <string>name</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>value</string>
+               </property>
+              </column>
+              <item row="0" column="0">
+               <property name="text">
+                <string>sheet</string>
+               </property>
+              </item>
+              <item row="0" column="1">
+               <property name="text">
+                <string>chapter 1</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="textEdit">
+          <property name="html">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Note text&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Gallery</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QToolBox" name="toolBox_2">
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="page_3">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>98</width>
+             <height>96</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Notes</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QTreeWidget" name="treeWidget_2">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <column>
+               <property name="text">
+                <string>Gallery</string>
+               </property>
+              </column>
+              <item>
+               <property name="text">
+                <string>Photos</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Elsa</string>
+                </property>
+               </item>
+              </item>
+              <item>
+               <property name="text">
+                <string>Places</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Photo of Paris</string>
+                </property>
+               </item>
+              </item>
+              <item>
+               <property name="text">
+                <string>[whatever]</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_4">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>98</width>
+             <height>96</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Properties</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QTableWidget" name="tableWidget">
+              <row>
+               <property name="text">
+                <string/>
+               </property>
+              </row>
+              <column>
+               <property name="text">
+                <string>name</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>value</string>
+               </property>
+              </column>
+              <item row="0" column="0">
+               <property name="text">
+                <string>legend</string>
+               </property>
+              </item>
+              <item row="0" column="1">
+               <property name="text">
+                <string>photo of paris</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="scrollArea">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>98</width>
+             <height>28</height>
+            </rect>
+           </property>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
