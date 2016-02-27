@@ -1,0 +1,13 @@
+body, a, td, textarea, input, select {
+	font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
+	font-size:1em;
+	text-align:left;
+}
+
+body {
+	background-color: #54f9f2;
+	color:#000000;
+	margin:10px;
+	padding:0;
+}
+

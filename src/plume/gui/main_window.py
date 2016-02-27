@@ -106,8 +106,12 @@ class MainWindow(QMainWindow, WindowSystemController):
 
     @pyqtSlot()
     def launch_preferences(self):
-        pref = Preferences(self)
-        pref.exec_()
+        from .form_preference import FormPreference
+        a_form = FormPreference()
+        a_form.load()
+        a_form.show()
+        #pref = Preferences(self)
+        #pref.exec_()
 
     @pyqtSlot()
     def launch_start_window(self):

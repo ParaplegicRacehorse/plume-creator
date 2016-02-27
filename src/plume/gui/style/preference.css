@@ -1,0 +1,42 @@
+/*
+* { border: 1px solid red;}
+* * { border: 1px solid blue;}
+* * * { border: 1px solid green;}
+* * * * { border: 1px solid red;}
+* * * * * { border: 1px solid blue;}
+* * * * * * { border: 1px solid green;}
+*/
+
+body, a, td, textarea, input, select {
+	font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
+	font-size:1em;
+	text-align:left;
+}
+
+body {
+	background-color: #e8e8e8;
+	color:#000000;
+	margin:10px;
+	padding:0;
+}
+
+/* Grid for 'all' settings */
+div.grid {
+    width:80px;
+    height:80px;
+    margin:20px;
+    text-align:center;
+    float:left;
+    /*cursor:pointer*/
+}
+
+div.grid div {
+    height:50px;
+    text-align:center
+}
+
+div.grid img:hover {
+    /*border:1px solid #c0c0c0;*/
+    margin-top:2px;
+    margin-left:2px;
+}

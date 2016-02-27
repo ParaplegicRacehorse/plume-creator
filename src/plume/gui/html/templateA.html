@@ -1,0 +1,21 @@
+<(# Standard Template )>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<title>Title Not Used</title>
+    <link href="file://<(root)><(style)>?<(sec)>" rel="stylesheet" type="text/css">
+    <script language="javascript">
+        function mLoad(sEvent) {
+            // event=refresh for refresh
+            var s_html = MuEv.web_event(sEvent, '');
+            document.open()
+            document.write(s_html)
+            document.close()
+        }
+	</script>
+    <(head)>
+</head>
+<body>
+    <(body)>
+</body>
+</html>

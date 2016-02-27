@@ -1,0 +1,58 @@
+Time: <(time)><br>
+<style type="text/css">
+    div.swatch{
+        height:20px;
+        width:20px;
+        float:left;
+        border:1px solid #000000;
+        border-radius: 3px;
+    }
+</style>
+<script type="text/javascript">
+    function mColor(aDiv) {
+        // Get name of sample cell
+        var sId = aDiv.id;
+        var sTid = sId.slice(0,-3);
+        //alert(sId);
+        // Get current color
+        var sCol = aDiv.style.backgroundColor;
+
+        var aCol = document.getElementById('color-picker');
+        //alert(sCol);
+        aCol.value = sCol;
+        //alert(aCol.value);
+        aCol.click();
+        //alert(aCol.value);
+        aDiv.style.backgroundColor = aCol.value;
+        var aTd = document.getElementById(sTid);
+        if (sId.indexOf('_bg') == -1)
+            aTd.style.color = aCol.value;
+        else
+            aTd.style.backgroundColor = aCol.value;
+    }
+</script>
+<div style="text-align:right;">
+    <img src="file://<(root)>image/theme.png" alt="theme" style="margin-right:20px">
+</div>
+<table border="0" cellpadding="2" cellspacing="2">
+    <tr class="theme-pick">
+        <td><div id="t_sheet_bg" class="swatch" onClick="mColor(this)" style="background-color:#ff8080"></div></td>
+        <td><div id="t_sheet_fg" class="swatch" onClick="mColor(this)" style="background-color:#404070"></div></td>
+        <td id="t_sheet" style="width:15em;background-color:#ff8080;color:#000000">Sheet Text</td>
+    </tr>
+    <tr class="theme-pick">
+        <td><div id="t_tree_bg" class="swatch" onClick="mColor(this)" style="background-color:#fffaae"></div></td>
+        <td><div id="t_tree_fg" class="swatch" onClick="mColor(this)" style="background-color:#404070"></div></td>
+        <td id="t_tree" style="width:15em;background-color:#fffaae;color:#000000">Tree Text</td>
+    </tr>
+    <tr class="theme-pick">
+        <td><div id="t_note_bg" class="swatch" onClick="mColor(this)" style="background-color:#3effbd"></div></td>
+        <td><div id="t_note_fg" class="swatch" onClick="mColor(this)" style="background-color:#404070"></div></td>
+        <td id="t_note" style="width:15em;background-color:#3effbd;color:#000000">Notes Text</td>
+    </tr>
+
+</table>
+<div style="height:50px"></div>
+<input type="button" value="Refresh" onClick="mTest();">
+<input type="color" id="color-picker" name="color-picker" value="#565600" style="">
+<(#dump)>
