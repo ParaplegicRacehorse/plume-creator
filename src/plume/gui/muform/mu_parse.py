@@ -1,9 +1,36 @@
+#
+# MuParse - Support for tags of the form <(...)> in MuForm
+# Copyright (C) 2016    Bardi <bardi9@deckertelecom.net>
+# Last Error Code: 30229
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 from .mu_base import *
-    # Last Error Code: 30229
 
-class MuParse():
+
+class MuParse:
     # Class to parse html for <( )> tags
-    # Last Error Code: 30201
+    # Usage:
+    #   #
+    #   s_html = "some html, either fragment or whole page containing some <(tags)>"
+    #   a_parse = MuParse()
+    #   s_html = a_parse.parse_html(self, s_html) # self is  used to give callbacks to the caller
+    #   # s_html has tags replaced by values obtained by callbacks to the caller. Each callback is
+    #   #   named 'mfn_' + tag. E.g. <(foo)> is replaced by the return value of caller.mfn_foo()
+    #   # Tags can pass arguments to callbacks e.g. <(foo, 'bar', 37)> is replaced by the return value of
+    #   #   caller.foo('bar', 37)
+    #   # MuForm provides a number of pre-defined useful tags. See MuForm.mfn_Xxx
+    #
     def __init__(self):
         self.b_debug = False
 
@@ -29,11 +56,11 @@ class MuParse():
                     print('Expected tuple, found unknown type')
                 return
 
-            s_pre = a_tag[1]
+            s_pre = str(a_tag[1])
             if s_pre:
                 s_pre = self.__replace_white(s_pre[:20])
 
-            s_post = a_tag[2]
+            s_post = str(a_tag[2])
             if s_post:
                 s_post = self.__replace_white(s_post[:20])
 
@@ -206,7 +233,7 @@ class MuParse():
             if c.isspace():
                 continue
             # Look for quotes
-            if c == '"' :
+            if c == '"':
                 # Dbl quotes
                 return self.__get_arg_dq(s_stream[p+1:], s_tag)
             elif c == "'":
@@ -251,7 +278,7 @@ class MuParse():
 
         # [2:-2] to remove tag marks "<()>"
         a_ret = self.__func_name(s_tag[2:-2], s_tag)
-        s_func = a_ret[0] # function name
+        s_func = a_ret[0]  # function name
         s_stream = a_ret[1]
 
         if not s_func:
@@ -261,7 +288,7 @@ class MuParse():
             return a_ret
 
         self.__debug('unpack_tag', s_tag)
-        #print (s_func, s_stream)
+        # print (s_func, s_stream)
 
         a_args = []         # Args list to return (as tuple)
         while s_stream:
@@ -271,8 +298,6 @@ class MuParse():
 
         # Return (func_name, (arg1, arg2, argn))
         a_ret = (s_func, tuple(a_args))
-        #self.__debug_func('return ', a_ret)
-
         return a_ret
 
     def parse_html(self, a_caller, s_html):
@@ -291,7 +316,8 @@ class MuParse():
                 s_func_name = a_tag[0]
                 a_args = a_tag[1]
                 if not s_func_name:
-                    # The parse failed. We have already given an error. Add something to the html to make it easier to debug
+                    # The parse failed. We have already given an error. Add something to the html to make it easier
+                    # to debug
                     s_result = 'Error 30302'
                     base_error(30302, 'Parse failed. Error already given')
                 else:
@@ -301,7 +327,6 @@ class MuParse():
                     self.__debug_print('Calling: ' + s_func_name + ' Args: ', a_args)
                     if hasattr(a_caller, s_func_name):
                         s_result = getattr(a_caller, s_func_name)(*a_args)
-                        #s_result = '###'
                     else:
                         # No callback function of that name
                         s_result = '[Error 30229]'
@@ -316,4 +341,3 @@ class MuParse():
 
         # s_pre_html is the final result
         return s_html
-

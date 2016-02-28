@@ -1,16 +1,26 @@
 #
 # MuForm - Support for forms using HTML for gui
+# Copyright (C) 2016    Bardi <bardi9@deckertelecom.net>
+# Last Error Code: 30301
 #
-
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGroupBox, QMessageBox
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QFileInfo, pyqtSlot, QObject
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+from PyQt5.QtWidgets import QWidget
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import QObject
 from PyQt5 import QtWebKitWidgets
-import sys
-import os
 import time
 import datetime
-from .mu_base import *
 from .mu_parse import *
 
 class MuLate():
@@ -24,7 +34,7 @@ class MuLate():
         #   translate('open', 'base.connect')
         #
         #TODO: Either use Qt or some other service...
-        return s_source + '~';
+        return s_source + '~'
 
 
 class MuFormList(dict):
@@ -35,7 +45,7 @@ class MuFormList(dict):
         # to continue (but probably not happily!)
         base_error(30101, 'Undefined MuForm: ' + s_form_name)
         # This empty form allows following code to operate, but it wont find what it is expecting.
-        return MuForm('temp')
+        return MuForm()
 
     def exists(self, s_form_name):
         # Returns true if the specified form name exists in the collection
@@ -47,7 +57,7 @@ class MuFormList(dict):
 
     def new(self, s_form_name):
         # Returns a new form and adds it to the dict
-        a_dlg = MuForm(s_form_name)
+        a_dlg = MuForm()
         self[s_form_name] = a_dlg
         return a_dlg
 
@@ -55,7 +65,6 @@ class MuFormList(dict):
 class MuForm:
     # An MuForm is a python form that uses html for its layout
     # We try and isolate ourselves from Qt since we might in future we able to use the webkit directly.
-    # Last Error Code: 30301
     def __init__(self):
         # If a_aprent is set (to anothe rMuForm), then this window will use the parent qt window and not create on
         # itself. This is useful for overloading the contents of one window with another (child) window as per the
@@ -309,5 +318,5 @@ class MuEvent(QObject):
             #  def mev_event_name(self, s_param_1):
             return getattr(self.a_form, s_event_name)(s_param_1)
         else:
-            base_info(30402,'No handler')
+            base_info(30402, 'No handler')
             return '30402'
