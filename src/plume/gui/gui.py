@@ -25,12 +25,10 @@ class Gui(QObject):
         self.window = MainWindow(self)
         self.window.show()
         # Bardi for testing only:
+        """
         from .form_preference import FormPreference
         a_form = FormPreference()
         a_form.load()
         a_form.show()
-        #from .form_style import FormStylePicker
-        #a_form = FormStylePicker()
-        #a_form.load()
-        #a_form.show()
+        """
 
