@@ -1,0 +1,21 @@
+<div style="float:left;">
+    <div style="width:250px;height:30px;">
+        <h2><(lang, 'Available Styles')></h2>
+    </div>
+    <div class="style_list">
+        <(style_list)>
+    </div>
+</div>
+<div style="width:200px;height:480px;float:right;margin-right:10px;position:relative;">
+    <div style="float:right;">
+        <img src="file://<(root)>gui/pics/48x48/style.png" alt="icon">
+    </div>
+    <br style="clear:both">
+        <input type="button" onClick="MuEv.web_event('font_edit', 'new', '');" value="<(lang, 'Add Style')>">
+    <div style="position:absolute;right:0;bottom:0;">
+        <input type="button" onClick="MuEv.web_event('close', '', '');" value="<(lang, 'Close')>">
+    </div>
+    <br style="clear:both">
+</div>
+
+<(#dump)>

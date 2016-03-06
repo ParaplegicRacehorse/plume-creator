@@ -1,0 +1,30 @@
+<(#Fonts Attributes for form_font_picker. Note we cleverly make most of the inputs IDs the same as the style attr they refer too. This reducing later mapping. )>
+<table>
+    <tr>
+        <td style="text-align:right"><i><(lang, 'Size')></i></td>
+        <td style="text-align:left">
+            <input id="font_size" name="font_size" type="input" class="numeric" style="width:3em;" value="<(font_size)>" onchange="mChange(this, 'set_font_size');"> pt
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:right"><input onchange="mChange(this, 'set_font_italic');" id="font_italic" name="font_italic" type="checkbox" <(font_italic)>></td>
+        <td style="text-align:left"><i><(lang, 'Italic')></i></td>
+    </tr>
+    <tr>
+        <td style="text-align:right"><input onchange="mChange(this, 'set_font_bold');" id="font_bold" name="font_bold" type="checkbox" <(font_bold)>></td>
+        <td style="text-align:left"><b><(lang, 'Bold')></b></td>
+    </tr>
+    <tr>
+        <td style="text-align:right"><input onchange="mChange(this, 'set_fg_color');" id="fg_color" name="fg_color" type="color" value="<(fg_color)>"></td>
+        <td style="text-align:left"><(lang, 'Text Colour')></td>
+    </tr>
+    <tr>
+        <td style="text-align:right"><input onchange="mChangeBg(this)" id="bg-use" name="font_attr" type="checkbox" <(bg_use)>></td>
+        <td style="text-align:left"><i><(lang, 'Highlight')></i></td>
+    </tr>
+    <tr id="bg-row" style="<(bg_visible)>">
+        <td style="text-align:right"><input onchange="mChange(this, 'set_bg_color');" id="bg_color" name="bg_color" type="color" value="<(bg_color)>"></td>
+        <td style="text-align:left"><(lang, 'Highlight Colour')></td>
+    </tr>
+</table>
+<(#dump)>

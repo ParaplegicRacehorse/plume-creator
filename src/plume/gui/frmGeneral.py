@@ -22,7 +22,7 @@ class frmGeneral(MuForm):
         s_html = self.load_html('form/frmGeneral.html')
         return s_html
 
-    def style(self):
+    def cssfile(self):
         return 'style/settings.css'
 
     def nnn(self):
@@ -39,10 +39,10 @@ class frmGeneral(MuForm):
         self.read_setting('Settings/numberSymbolIsComma','false')
         """
 
-    def mev_callback_1(self, s_param_1):
+    def mev_callback_1(self, s_param_1, s_param_2):
         base_info(30301, 'Event!')
 
-    def mev_refresh(self, s_param_1, result=str):
+    def mev_refresh(self, s_param_1, s_param_2, result=str):
         print('general refresh')
         return self.get_html()
 

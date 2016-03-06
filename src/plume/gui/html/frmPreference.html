@@ -1,16 +1,17 @@
 <!--<input type="button" value="<(lang, 'All Settings')>">-->
 <(#dump)>
 <div style="width:370px;margin:0 auto">
-    <div class="grid" onClick="MuEv.web_event('go_general', '');"><div><img src="file://<(root)>gui/pics/48x48/general.png"></div><(lang, 'General')></div>
-    <div class="grid" onClick="MuEv.web_event('go_general', '');"><div><img src="file://<(root)>gui/pics/48x48/font.png"></div><(lang, 'Fonts')></div>
-    <div class="grid" onClick="MuEv.web_event('go_general', '');"><div><img src="file://<(root)>gui/pics/48x48/theme.png"></div><(lang, 'Themes')></div>
-    <div class="grid" onClick="MuEv.web_event('go_general', '');"><div><img src="file://<(root)>gui/pics/48x48/style.png"></div><(lang, 'Styles')></div>
-    <div class="grid" onClick="MuEv.web_event('go_general', '');"><div><img src="file://<(root)>gui/pics/48x48/spelling.png"></div><(lang, 'Spelling')></div>
-    <div class="grid" onClick="MuEv.web_event('go_general', '');"><div><img src="file://<(root)>gui/pics/48x48/update.png"></div><(lang, 'Updates')></div>
+    <div class="grid disabled" onClick="MuEv.web_event('go_general', '', '');"><div><img src="file://<(root)>gui/pics/48x48/general.png"></div><(lang, 'General')></div>
+<(#debug)>
+    <div class="grid disabled" onClick="MuEv.web_event('go_general', '', '');"><div><img src="file://<(root)>gui/pics/48x48/font.png"></div><(lang, 'Fonts')></div>
+<(#debug, off)>
+    <div class="grid disabled" onClick="MuEv.web_event('go_general', '', '');"><div><img src="file://<(root)>gui/pics/48x48/theme.png"></div><(lang, 'Themes')></div>
+    <div class="grid" onClick="MuEv.web_event('show_style', '', '');"><div><img src="file://<(root)>gui/pics/48x48/style.png"></div><(lang, 'Styles')></div>
+    <div class="grid disabled" onClick="MuEv.web_event('go_general', '', '');"><div><img src="file://<(root)>gui/pics/48x48/spelling.png"></div><(lang, 'Spelling')></div>
+    <div class="grid disabled" onClick="MuEv.web_event('go_general', '', '');"><div><img src="file://<(root)>gui/pics/48x48/update.png"></div><(lang, 'Updates')></div>
     <br clear="both">
     <div style="float:right; margin-right:20px">
-        <input type="button" onClick="MuEv.web_event('cancel', '');" value="<(lang, 'Cancel')>">
-        <input type="button" onClick="MuEv.web_event('save', '');" value="<(lang, 'Ok')>">
+        <input type="button" onClick="MuEv.web_event('close', '', '');" value="<(lang, 'Close')>">
     </div>
     <br clear="both">
 </div>

@@ -1,0 +1,27 @@
+<div style="float:left;width:420px;">
+    <h1><(lang, 'Style:')> <input id="style_name" onblur="mChange(this, 'set_style_name');" type="text" style="width:280px" value="<(style_name)>"></h1>
+</div>
+<div style="float:right;">
+    <img src="file://<(root)>gui/pics/48x48/font.png" alt="icon">
+</div>
+<div id="current_style">
+    <!-- font sample goes here -->
+    <(style_sample)>
+</div>
+<div style="margin-top:0.5em;float:left;clear:both;">
+    <h2><(lang, 'Available Fonts:')></h2>
+</div>
+<div class="font_list">
+    <(font_list)>
+</div>
+<div style="width:190px;float:right;margin-right:10px;">
+    <div id="current_options" style="border:1px solid #c0c0c0">
+        <!-- font attributes go here -->
+        <(style_attr)>
+    </div>
+</div>
+<div style="position:absolute;right:0;bottom:0;">
+    <input type="button" onClick="MuEv.web_event('cancel', '', '');" value="<(lang, 'Cancel')>">
+    <input type="button" onClick="MuEv.web_event('save', '', '');" value="<(lang, 'Save')>">
+</div>
+<(#dump)>

@@ -18,6 +18,21 @@ body {
 	color:#000000;
 	margin:10px;
 	padding:0;
+	position:relative; /* Allows for buttons to be placed at the bottom */
+}
+
+.alt_body {
+    background-color: #ff0000;
+}
+
+h1 {
+    font-size:1.6em;
+    margin:0 0 0 0;
+}
+
+h2 {
+    font-size:1.2em;
+    margin:0 0 0 0;
 }
 
 /* Grid for 'all' settings */
@@ -30,13 +45,128 @@ div.grid {
     /*cursor:pointer*/
 }
 
+div.disabled {
+    color: #c0c0c0;
+}
+
 div.grid div {
     height:50px;
-    text-align:center
+    text-align:center;
 }
 
 div.grid img:hover {
     /*border:1px solid red;*/
     margin-top:2px;
     margin-left:2px;
+}
+
+div.disabled img:hover {
+    margin-top:0px;
+    margin-left:0px;
+}
+
+div.font_style {
+    padding:3px;
+}
+
+div.font_style:hover {
+    margin-top:2px;
+    margin-left:2px;
+}
+
+
+input[type=color] {
+    width:35px;
+    height:40px;
+    padding: 0;
+    margin:0;
+}
+
+input.numeric {
+    text-align:right;
+}
+
+div.sample {
+    padding: 5px 10px;
+}
+
+div.style_list {
+    width:250px;
+    height:450px;
+    overflow:auto;
+    border:1px solid #c0c0c0;
+    background-color: #ffffff;
+}
+
+/* Each item in the style_list */
+div.style_list div.row {
+    padding: 8px;
+}
+
+div.style_list div.row:hover {
+    background-color: #c0c0c0;
+}
+
+/* Alternate items in the style_list */
+div.style_list div.alt {
+    background-color: #ffffff;
+}
+
+div.style_list div.item {
+    padding: 3px;
+}
+
+div.font_list {
+    height:320px;
+    width:250px;
+    overflow:auto;
+    border:1px solid #c0c0c0;
+    background-color: #e8e8e8;
+    float:left;
+    clear:both;
+}
+
+div.font_list_name {
+    text-align:right;
+    font-size:0.65em
+}
+
+div.font_list div.row {
+    padding: 3px;
+}
+
+div.font_list div.row:hover {
+    background-color: #ffffff;
+}
+
+div.font_list div.alt {
+    background-color: #c0c0c0;
+}
+
+#current_style {
+    float:left;
+    margin:0;
+    clear:both;
+    width:470px;
+}
+
+div.style_sample_font {
+    float:left;
+}
+
+div.style_sample {
+    border: 1px solid #c0c0c0;
+    padding:5px;
+    clear:both;
+    float:left;
+}
+
+div.style_sample div.label {
+    font-size: 0.6em;
+    font-style: italic;
+    float:left;
+}
+
+div.style_sample div.inner {
+    padding:5px;
 }

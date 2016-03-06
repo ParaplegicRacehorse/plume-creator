@@ -18,7 +18,7 @@ class frmTheme(MuForm):
 
         function mTest() {
             //alert('Go');
-            var s_html = MuEv.web_event('refresh', '');
+            var s_html = MuEv.web_event('refresh', '', '');
             document.open()
             document.write(s_html)
             document.close()
@@ -34,11 +34,11 @@ class frmTheme(MuForm):
         s_html = self.load_html('form/frmTheme.html')
         return s_html
 
-    def style(self):
+    def cssfile(self):
         return 'style/settings.css'
 
-    def mev_callback_1(self, s_param_1):
+    def mev_callback_1(self, s_param_1, s_param_2):
         base_info(30301, 'Event!')
 
-    def mev_refresh(self, s_param_1, result=str):
+    def mev_refresh(self, s_param_1, s_param_2, result=str):
         return self.get_html()

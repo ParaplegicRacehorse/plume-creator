@@ -15,13 +15,14 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QObject
 from PyQt5 import QtWebKitWidgets
 import time
 import datetime
 from .mu_parse import *
+from .mu_base import *
 
 class MuLate():
     # Provides multilingual support
@@ -34,32 +35,7 @@ class MuLate():
         #   translate('open', 'base.connect')
         #
         #TODO: Either use Qt or some other service...
-        return s_source + '~'
-
-
-class MuFormList(dict):
-    # A collection of MuForms. Useful if you want to sort or arrange the list.
-    # Last Error Code: 30101
-    def __missing__(self, s_form_name):
-        # Called if the requested key is not present. We write an error and return an empty object to allow code
-        # to continue (but probably not happily!)
-        base_error(30101, 'Undefined MuForm: ' + s_form_name)
-        # This empty form allows following code to operate, but it wont find what it is expecting.
-        return MuForm()
-
-    def exists(self, s_form_name):
-        # Returns true if the specified form name exists in the collection
-        return s_form_name in self
-
-    def form(self, s_form_name):
-        # returns the MuForm specified by s_form_name
-        return self[s_form_name]
-
-    def new(self, s_form_name):
-        # Returns a new form and adds it to the dict
-        a_dlg = MuForm()
-        self[s_form_name] = a_dlg
-        return a_dlg
+        return '~' + s_source
 
 
 class MuForm:
@@ -73,11 +49,11 @@ class MuForm:
         self.s_url_root = base_root_url()
         self.s_html = '' # Unparsed html
         self.b_dump = False # For debug - see <(dump)>
-        self.s_name = 'muForm'
+        self.s_name = 'muForm'  # It's a good idea to give your forms names to help with parsing errors
         self.a_lang = MuLate() # Translation support
         # Declare some publics
 
-        self.a_win = None
+        self.a_win = None  # type: QtWebKitWidgets.QWebView
         self.a_web = None
         self.__gui()
 
@@ -85,7 +61,7 @@ class MuForm:
         self.setup()
 
     def __gui(self):
-        # Create a new form. s_form_name should be unique else you'll be overwriting something else!
+        # Create a new window
         self.a_win = QWidget()
         self.a_win.setObjectName("MuForm")
 
@@ -123,6 +99,30 @@ class MuForm:
         self.a_web.setContent(s_html, 'text/html', QtCore.QUrl(self.s_url_root))
         pass
 
+    def element_by_selector(self, s_selector):
+        # Returns the first element in the web view that matches the given css selector.
+        # E.g. element_by_selector('input[id=foo]')
+        a_element = self.a_web.page().mainFrame().findFirstElement(s_selector)
+        return a_element
+
+    def element_by_id(self, s_id):
+        # Returns the first element in the web view that matches the given element id
+        # E.g. for <input id="foo"> use: element_by_id('foo')
+        a_element = self.element_by_selector("input[id='" + s_id + "']")
+        return a_element
+
+    def value_by_id(self, s_id):
+        # Returns the value of the first element in the web view that matches the given element id
+        # E.g. for <input id="foo"> use: value_by_id('foo')
+        # Note: a_element.attribute("value") only returns the ORIGINAL value of the input, Apparently that's a feature.
+
+        a_element = self.element_by_selector("input[id='" + s_id + "']")
+        print(a_element.attribute("type"))
+        if a_element.attribute("type") == 'checkbox':
+            return self.a_web.page().mainFrame().evaluateJavaScript("document.getElementById('" + s_id + "').checked")
+        else:
+            return self.a_web.page().mainFrame().evaluateJavaScript("document.getElementById('" + s_id + "').value")
+
     #
     # These methods manipulate the window
     #
@@ -133,6 +133,7 @@ class MuForm:
         self.a_win.move(i_x, i_y)
 
     def set_title(self, s_title):
+        s_title = self.a_lang.translate(s_title)
         self.a_win.setWindowTitle(s_title)
 
     def show(self):
@@ -140,6 +141,8 @@ class MuForm:
 
     def close(self):
         self.a_win.destroy()
+        #del self.a_win
+        #del self
 
     #
     # These methods provide help for loading html strings
@@ -160,6 +163,7 @@ class MuForm:
         # Now parse the html and output it to the webview. We leave the un-parsed html in self.s_html so we can
         # call refresh again if needed
         self.refresh()
+        QApplication.processEvents()  # Allows webView time to display form before we call show()
 
     def load_r(self):
         # Load and parse an entire form. You can call this or do the separate bits yourself, depending on your need
@@ -182,8 +186,8 @@ class MuForm:
         self.set_html(s_html)
 
     def get_html(self):
-        # Returns the parsed html
-        a_parse = MuParse()
+        # Returns the parsed html. s_name is passed so errors contain some context.
+        a_parse = MuParse(self.s_name)
         # self.s_html is either the template or if no template, the body.
         s_html = a_parse.parse_html(self, self.s_html)
 
@@ -200,7 +204,6 @@ class MuForm:
     def load_html(self, s_path):
         # Load the text of a file. We expect them to be html fragments, but we don't care - GIGO
         s_abs_path = base_path(s_path)
-        print (s_abs_path)
         a_file = open(s_abs_path, 'r')
         s_html = a_file.read()
         a_file.close()
@@ -213,7 +216,7 @@ class MuForm:
     #
     # These methods offer html fragments
     #
-    def style(self):
+    def cssfile(self):
         # Returns the stylesheet path
         return base_style_dir() + 'default.css'
 
@@ -236,17 +239,18 @@ class MuForm:
     #   <(func, arg1, argn)> - calls the method in this class called mfn_func(arg1, argn)
     #
     # Some generic methods are provided, it is expected that forms will subclass MuForm and provide their own
-    # functions
+    # functions.
+    # Note: In addition, the following pseudo methods are provided by the parser: <(dump)> <(debug, on)> <(debug, off)>
     #
     def mfn_head(self):
         # Used by a template to insert in the <head> section e.g. style, javascript
         # Usage in html: <(head)>
         return self.head()
 
-    def mfn_style(self):
+    def mfn_cssfile(self):
         # Used by a template to return the stylesheet name
-        # Usage in html: <(style)>
-        return self.style()
+        # Usage in html: <(cssfile)>
+        return self.cssfile()
 
     def mfn_body(self):
         # Used by a template to insert the body
@@ -257,12 +261,6 @@ class MuForm:
         # Returns root folder
         # Usage in html: <(root)>
         return self.s_url_root
-
-    def mfn_dump(self):
-        # A pseudo tag to output the html to stdout in refresh(). Put it anywhere in the template or body
-        # Usage in html: <(dump)>
-        self.b_dump = True
-        return ''
 
     def mfn_fValue(self, s_field_name):
         # Returns the value of the field
@@ -297,26 +295,27 @@ class MuEvent(QObject):
         self.a_form = a_form
         self.a_form.a_web.page().mainFrame().addToJavaScriptWindowObject("MuEv", self)
 
-    @QtCore.pyqtSlot(str, str, result=str)
-    def web_event(self, s_event_name, s_param_1):
-    #def web_event(self):
-        # To call this, add this javascript to your form in an appropriate place
-        # MuEv.event('event-name', 'param-1');
+    @QtCore.pyqtSlot(str, str, str, result=str)
+    def web_event(self, s_event_name, s_param_1, s_param_2):
+        # To call this, add this javascript to your form in an appropriate place. The choice of 2 params is somewhat
+        # arbitrary, but can be used to pass a name and value from a form to python.
+        # MuEv.event('event-name', 'param-1', 'param-2');
         # e.g.
-        #   <input type="button" onClick="MuEv.event('event-name', 'param-1')" value="Press Me">
+        #   <input type="button" onClick="MuEv.event('event-name', 'param-1', 'param-2')" value="Press Me">
         # In your MuForm form class, define your callback like this (note the 'mev_' prefix!
-        #  def mev_event_name(self, s_param_1):
+        #  def mev_event_name(self, s_param_1, s_param_2):
         # By adding mev_ to the method name, we make them easier to find and prevent calling of unintended callbacks
         s_event_name = 'mev_' + s_event_name
 
-        base_info(30401, 'Event for: ' + self.a_form.s_name + '.' + s_event_name + '(' + s_param_1 + ')')
+        base_info(30401, 'Event for: ' + self.a_form.s_name + '.' + s_event_name
+                  + '(' + s_param_1 + ', ' + s_param_2 + ')')
 
         # check method exists
         if hasattr(self.a_form, s_event_name):
             # The MuForm has a method called 'mev_event_name'. We call it and pass the parameter
             # Declare you method like this:
             #  def mev_event_name(self, s_param_1):
-            return getattr(self.a_form, s_event_name)(s_param_1)
+            return getattr(self.a_form, s_event_name)(s_param_1, s_param_2)
         else:
             base_info(30402, 'No handler')
             return '30402'

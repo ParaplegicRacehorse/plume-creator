@@ -1,7 +1,7 @@
 #
 # MuParse - Support for tags of the form <(...)> in MuForm
 # Copyright (C) 2016    Bardi <bardi9@deckertelecom.net>
-# Last Error Code: 30229
+# Last Error Code: 30230
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -31,8 +31,14 @@ class MuParse:
     #   #   caller.foo('bar', 37)
     #   # MuForm provides a number of pre-defined useful tags. See MuForm.mfn_Xxx
     #
-    def __init__(self):
+    def __init__(self, s_name):
+        # s_name is some context printed out in case of errors. Suggest you pass the the filename you are parsing
         self.b_debug = False
+        self.b_dump = False
+        self.s_name = s_name
+
+    def error(self, i_err, s_msg):
+        base_error(i_err, s_msg + ' in: ' + self.s_name)
 
     def __replace_white(self, s_value):
         # Returns s_value with \n and double spaces replaced by a single space
@@ -58,11 +64,13 @@ class MuParse:
 
             s_pre = str(a_tag[1])
             if s_pre:
-                s_pre = self.__replace_white(s_pre[:20])
+                s_preA = self.__replace_white(s_pre[:40])  # Start of string
+                s_preB = self.__replace_white(s_pre[-40:])  # End of string
+                s_pre = s_preA + ' ... ' + s_preB
 
             s_post = str(a_tag[2])
             if s_post:
-                s_post = self.__replace_white(s_post[:20])
+                s_post = self.__replace_white(s_post[:40])
 
             print(s_state + ': tag=|' + a_tag[0] + '|')
             print('  pre:|' + s_pre + '|')
@@ -117,7 +125,7 @@ class MuParse:
             else:
                 # Only a-z0-9_- allowed
                 if "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_".find(c) == -1:
-                    base_error(30221, 'Function name can only be A-Z0-9_- (and no quotes) Tag: ' + s_tag)
+                    self.error(30221, 'Function name can only be A-Z0-9_- (and no quotes) Tag: ' + s_tag)
                     a_ret = ('', ())    # Empty func + args
                     return a_ret
                 s_ret += c
@@ -136,7 +144,7 @@ class MuParse:
             # Look for quotes
             if c == '"' or c == "'":
                 # Not allowed quotes in the middle of an arg
-                base_error(30222, 'Illegal quote: (' + c + ') Tag: ' + s_tag)
+                self.error(30222, 'Illegal quote: (' + c + ') Tag: ' + s_tag)
                 a_ret = ('', ())    # Empty func + args
                 return a_ret
             if c == ',':
@@ -164,7 +172,7 @@ class MuParse:
                 # Else no comma
                 if s_stream:
                     # If we didn't find a comma, there can be no more arguments
-                    base_error(30225, 'Missing comma (,) before: "' + s_stream[:20] + '" Tag: ' + s_tag)
+                    self.error(30225, 'Missing comma (,) before: "' + s_stream[:20] + '" Tag: ' + s_tag)
                     a_ret = ('', ())    # Empty func + args
                     return a_ret
                 # Else return empty stream
@@ -197,7 +205,7 @@ class MuParse:
                 s_ret += c
 
         # Get here if no closing quote
-        base_error(30223, "Missing closing quote (').  Tag: " + s_tag)
+        self.error(30223, "Missing closing quote (').  Tag: " + s_tag)
         a_ret = ('', ())    # Empty func + args
         return a_ret
 
@@ -222,7 +230,7 @@ class MuParse:
                 s_ret += c
 
         # Get here if no closing quote
-        base_error(30224, 'Missing closing quote (").  Tag: ' + s_tag)
+        self.error(30224, 'Missing closing quote (").  Tag: ' + s_tag)
         a_ret = ('', ())    # Empty func + args
         return a_ret
 
@@ -261,7 +269,7 @@ class MuParse:
         q = s_html.find(')>', p)
         if q == -1:
             # No closing tag. Treat it like no tag
-            base_error(30226, 'No closing tag after ' + s_html[p:30])
+            self.error(30226, 'No closing tag after ' + s_html[p:30])
             a_ret = ('', s_html, '')
             return a_ret
 
@@ -283,7 +291,7 @@ class MuParse:
 
         if not s_func:
             # Empty function name is an error (already output)
-            base_error(30227, 'No function name. Tag: ' + s_tag)
+            self.error(30227, 'No function name. Tag: ' + s_tag)
             a_ret = ('', ())    # Empty func + args
             return a_ret
 
@@ -319,7 +327,23 @@ class MuParse:
                     # The parse failed. We have already given an error. Add something to the html to make it easier
                     # to debug
                     s_result = 'Error 30302'
-                    base_error(30302, 'Parse failed. Error already given')
+                    self.error(30302, 'Parse failed. Error already given')
+                elif s_func_name == 'dump':
+                    # Special token <(dump)> will output the html at the end of the parse
+                    self.b_dump = True
+                    s_result = ''
+                elif s_func_name == 'debug':
+                    # Special token <(debug)> will show parse process (needed at the very top of a file to be useful)
+                    if 'off' in a_args:
+                        # <(debug, off)> will turn off debug mode
+                        if self.b_debug:
+                            print('debug off')
+                        self.b_debug = False
+                    else:
+                        # <(debug)> or <(<(debug, on)> will turn on debug mode
+                        self.b_debug = True
+                        print('debug on')
+                    s_result = ''
                 else:
                     # We add mfn_ to the function name to prevent accidental calling of unexpected methods
                     s_func_name = 'mfn_' + s_func_name
@@ -327,6 +351,10 @@ class MuParse:
                     self.__debug_print('Calling: ' + s_func_name + ' Args: ', a_args)
                     if hasattr(a_caller, s_func_name):
                         s_result = getattr(a_caller, s_func_name)(*a_args)
+                        # If you forget to return a value, then we sub ''
+                        if type(s_result) != str:
+                            self.error(30230, 'Tag ' + s_tag + ' failed to return a string value')
+                            s_result = ''
                     else:
                         # No callback function of that name
                         s_result = '[Error 30229]'
@@ -339,5 +367,6 @@ class MuParse:
             s_pre_html = a_ret[1]
             s_post_html = a_ret[2]
 
-        # s_pre_html is the final result
+        if self.b_dump:
+            print(self.s_name + ' parse output: ' + s_html)
         return s_html
