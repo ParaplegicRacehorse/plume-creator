@@ -39,7 +39,7 @@ class NoteListProxyModel(QSortFilterProxyModel):
 
     def roleNames(self):
         roles = {}
-        roles[NoteListModel.IdRole] = QByteArray().append("id")
+        roles[NoteListModel.IdRole] = QByteArray().append("note_id")
         roles[NoteListModel.TitleRole] = QByteArray().append("title")
         roles[NoteListModel.ContentRole] = QByteArray().append("content")
         return roles

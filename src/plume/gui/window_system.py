@@ -37,7 +37,7 @@ class WindowSystemController():
             pass
 
     def detach_sub_window(self, sub_window):
-        sub_window.setParent(None, Qt.Tool)
+        sub_window.setParent(None)
         sub_window.show()
         self.window_dict[sub_window.objectName()] = [sub_window, "detached"]
 

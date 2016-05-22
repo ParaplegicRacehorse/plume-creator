@@ -1,0 +1,40 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainForm.ui.qml</file>
+        <file>WritePage.qml</file>
+        <file>WritePageForm.ui.qml</file>
+        <file>WelcomePage.qml</file>
+        <file>WelcomePageForm.ui.qml</file>
+        <file>IconTab.qml</file>
+        <file>SheetTreeView.qml</file>
+        <file>SheetTreeViewForm.ui.qml</file>
+        <file>Stretcher.qml</file>
+        <file>WriteLeftDock.qml</file>
+        <file>WriteLeftDockForm.ui.qml</file>
+        <file>DockTitleBar.qml</file>
+        <file>DockTitleBarForm.ui.qml</file>
+        <file>WriteRightDock.qml</file>
+        <file>WriteRightDockForm.ui.qml</file>
+        <file>SheetNotesPanel.qml</file>
+        <file>SheetNotesPanelForm.ui.qml</file>
+        <file>SheetPropertyPanel.qml</file>
+        <file>SheetPropertyPanelForm.ui.qml</file>
+        <file>SheetSynopsisPanel.qml</file>
+        <file>SheetSynopsisPanelForm.ui.qml</file>
+        <file>WastebinPanel.qml</file>
+        <file>WastebinPanelForm.ui.qml</file>
+        <file>SheetTreePanel.qml</file>
+        <file>SheetTreePanelForm.ui.qml</file>
+        <file>WriteLeftBase.qml</file>
+        <file>WriteLeftBaseForm.ui.qml</file>
+        <file>DockBase.qml</file>
+        <file>DockBaseForm.ui.qml</file>
+        <file>Dock.qml</file>
+        <file>DockForm.ui.qml</file>
+        <file>WriteRightBase.qml</file>
+        <file>WriteRightBaseForm.ui.qml</file>
+        <file>singletons/SignalHub.qml</file>
+        <file>singletons/qmldir</file>
+    </qresource>
+</RCC>

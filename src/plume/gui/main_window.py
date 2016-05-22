@@ -78,8 +78,6 @@ class MainWindow(QMainWindow, WindowSystemController):
 
         self.ui.actionWrite.trigger()
 
-
-
         # menu bar actions
         self.ui.actionOpen_test_project.triggered.connect(
             self.launch_open_test_project)
@@ -346,6 +344,9 @@ class SideBar(QWidget, WindowSystemActionHandler):
                 self.setProperty("sub_window_object_name", self._prop)
 
             def contextMenuEvent(self, event):
+                # if self.property("sub_window_object_name") == "write_panel":
+                #     return QToolButton.contextMenuEvent(self, event)
+
                 menu = QMenu(self)
                 attachAction = menu.addAction("Attach")
                 attachAction.setProperty("sub_window_object_name", self._prop)

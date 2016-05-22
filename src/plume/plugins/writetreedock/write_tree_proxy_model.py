@@ -4,7 +4,9 @@ Created on 26 may 2015
 @author:  Cyril Jacquet
 '''
 
-from PyQt5.QtCore import QSortFilterProxyModel
+from PyQt5.QtCore import QSortFilterProxyModel, QByteArray
+from gui.models.sheet_tree_model import SheetTreeModel
+
 
 
 class WriteTreeProxyModel(QSortFilterProxyModel):
@@ -46,3 +48,10 @@ class WriteTreeProxyModel(QSortFilterProxyModel):
             return False
         else:
             return QSortFilterProxyModel.filterAcceptsRow(self, p_int, index)
+
+    def roleNames(self):
+        roles = {}
+        roles[SheetTreeModel.IdRole] = QByteArray().append("sheet_id")
+        roles[SheetTreeModel.TitleRole] = QByteArray().append("sheet_title")
+        roles[SheetTreeModel.ContentRole] = QByteArray().append("sheet_content")
+        return roles

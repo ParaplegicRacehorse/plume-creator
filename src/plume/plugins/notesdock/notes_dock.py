@@ -24,9 +24,10 @@ class NotesDockPlugin(gui_plugins.GuiWriteSubWindowDockPlugin):
     def gui_class(self):
         return GuiNotesDock
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout
-from PyQt5.QtCore import QObject, QUrl
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMenu
+from PyQt5.QtCore import QObject, QUrl, pyqtSlot, QPointF, Qt
 from PyQt5.QtQuickWidgets import QQuickWidget
+from PyQt5.QtGui import QContextMenuEvent
 from gui import cfg as gui_cfg
 from plugins.notesdock import note_list_proxy_model
 import os
@@ -76,6 +77,7 @@ class GuiNotesDock(QObject):
         Only used for compatibility with API, call sheet_id
         :param id:
         """
+        self.widget = None
         self.sheet_id = paper_id
 
     @property
@@ -85,7 +87,7 @@ class GuiNotesDock(QObject):
     @sheet_id.setter
     def sheet_id(self, sheet_id):
         if self._sheet_id == sheet_id:
-            pass
+            return
         self._sheet_id = sheet_id
         self.get_update()
         if self.sheet_id is not None:
@@ -118,17 +120,50 @@ class GuiNotesDock(QObject):
             #self.ui.filterLineEdit.textChanged.connect(self.filter.setFilterFixedString)
 
             #self.widget.gui_part = self
-            self.widget.setLayout(QVBoxLayout())
-            mQQuickWidget = QQuickWidget(self.widget)
-            mQQuickWidget.setResizeMode(QQuickWidget.SizeRootObjectToView)
-            mQQuickWidget.rootContext().setContextProperty("myModel", self.filter)
-            abspath = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-            mQQuickWidget.setSource(QUrl(abspath + "/qml/noteListView.qml"))
-            self.widget.layout().addWidget(mQQuickWidget)
+            layout = QVBoxLayout()
+            self._mQQuickWidget = QQuickWidget()
+            layout.addWidget(self._mQQuickWidget)
+            self.widget.setLayout(layout)
 
+            self._mQQuickWidget.setResizeMode(QQuickWidget.SizeRootObjectToView)
+            self._mQQuickWidget.rootContext().setContextProperty("myModel", self.filter)
+            abspath = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+            self._mQQuickWidget.setSource(QUrl(abspath + "/qml/noteListView.qml"))
+            print(self._mQQuickWidget.errors())
+            #
+            # self._mQQuickWidget.rootObject().openNoteSignal.connect(self.test)
+            # self._mQQuickWidget.rootObject().displayContextMenuSignal.connect(self.displayContextMenu)
+            # self._mQQuickWidget.update()
         # connect(mQQuickWidget->rootObject(), SIGNAL(openNoteSignal(int)), this, SLOT(test(int)));
         # connect(mQQuickWidget->rootObject(), SIGNAL(displayContextMenuSignal(int,int,int)), this, SLOT(displayContextMenu(int,int,int)));
 
 
         self.filter.filterNoteBySheet(self.sheet_id)
         return self.widget
+
+    @pyqtSlot(int)
+    def test(self, note_id:int):
+        print(note_id)
+
+    @pyqtSlot(int, QPointF, name="displayContextMenu")
+    def displayContextMenu(self, note_id:int, root_point:QPointF):
+
+        scene_pos = self._mQQuickWidget.rootObject().mapToScene(root_point.toPoint())
+        global_pos = self._mQQuickWidget.mapToGlobal(scene_pos.toPoint())
+        event = QContextMenuEvent(QContextMenuEvent.Mouse, scene_pos.toPoint(), global_pos)
+        self.contextMenuEvent(event)
+
+    def contextMenuEvent(self, event:QContextMenuEvent):
+
+
+        menu = QMenu(self._mQQuickWidget)
+        remove_sheet_action = menu.addAction(_("Remove note"))
+        remove_sheet_action.triggered.connect(self.remove_note)
+        menu.exec_(event.globalPos())
+
+
+        return False
+
+    @pyqtSlot(name="remove_note")
+    def remove_note(self):
+        pass

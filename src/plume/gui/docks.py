@@ -61,7 +61,7 @@ class DockSystem(QObject):
         '''
         area = self.main_window.dockWidgetArea(dock)
         self.add_dock(dock.current_type, area)
-        pass
+
 
     def add_dock(self, type_str, area=Qt.RightDockWidgetArea):
         '''
@@ -147,6 +147,9 @@ class DockTemplate(QDockWidget):
         self.setTitleBarWidget(title_widget)
         self.dock_system = dock_system
 
+        self.setFeatures(self.features() | (QDockWidget.DockWidgetFloatable |
+                                            QDockWidget.DockWidgetMovable))
+
     @property
     def dock_system(self):
         return self._dock_system
@@ -156,6 +159,9 @@ class DockTemplate(QDockWidget):
         if dock_system is not None:
             self._dock_system = dock_system
             self.titleBarWidget().fill_comboBox_with_types()
+
+    def split(self):
+        self.dock_system.split_dock(self)
 
 from .dock_title_bar_ui import Ui_DockTitleBar
 
@@ -184,15 +190,17 @@ class DockTitleWidget(QWidget):
     def on_addDockButton_clicked(self):
         if self.parent_dock is None:
             return
-        self.parent_dock.dock_system.split_dock(self.parent_dock)
+        self.parent_dock.split()
 
     def fill_comboBox_with_types(self):
         # types_name_dict = {}
+        self.ui.comboBox.disconnect()
         gui_parts = self.parent_dock.dock_system.dock_type_dict.values()
         for part in gui_parts:
             # types_name_dict[part.dock_displayed_name] = part.dock_name
             self.ui.comboBox.addItem(
                 part.dock_displayed_name, userData=part.dock_name)
+        self.ui.comboBox.currentIndexChanged.connect(self.on_comboBox_currentIndexChanged)
 
     @pyqtSlot(int)
     def on_comboBox_currentIndexChanged(self, index):
@@ -201,4 +209,6 @@ class DockTitleWidget(QWidget):
         if self.parent_dock is None:
             return
         dock_type = self.ui.comboBox.itemData(index, Qt.UserRole)
+        if self.parent_dock.current_type == dock_type:
+            return
         self.parent_dock.dock_system.change_type(self.parent_dock,  dock_type)

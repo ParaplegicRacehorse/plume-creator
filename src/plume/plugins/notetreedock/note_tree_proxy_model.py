@@ -6,7 +6,6 @@ Created on 26 may 2015
 
 from PyQt5.QtCore import QSortFilterProxyModel
 
-
 class NoteTreeProxyModel(QSortFilterProxyModel):
 
     '''
